@@ -1,0 +1,236 @@
+\documentclass[a4paper, 12pt, one column, aas_macros]{article}
+
+%% Language and font encodings. This says how to do hyphenation on end of lines.
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{aas_macros}
+
+%% Sets page size and margins. You can edit this to your liking
+\usepackage[top=1.3cm, bottom=2.0cm, outer=2.5cm, inner=2.5cm, heightrounded,
+marginparwidth=1.5cm, marginparsep=0.4cm, margin=2.5cm]{geometry}
+
+%% Useful packages
+\usepackage{graphicx} %allows you to use jpg or png images. PDF is still recommended
+\usepackage[colorlinks=False]{hyperref} % add links inside PDF files
+\usepackage[fleqn]{amsmath}  % Math fonts
+\usepackage{amsfonts} %
+\usepackage{amssymb}  %
+\usepackage{enumitem}
+\usepackage{braket}
+\usepackage{mathtools}
+
+\newcommand\given[1][]{\:#1\vert\:}
+
+%% Citation package
+\usepackage[authoryear]{natbib}
+\bibliographystyle{abbrvnat}
+\setcitestyle{authoryear,open={(},close={)}}
+\title{CS 440 - Assignment 3}
+\author{Cameron Pascal, Ariel Shaposhnik}
+
+\begin{document}
+\maketitle
+
+\section*{Question 1}
+  \begin{enumerate}[label=\alph*]
+    \item 
+      \begin{align*}
+        P(a, b, c, d, e) &= P(a)P(b)P(c)P(d\given a, b)P(e\given b, c) \\ 
+        &= 0.2 \cdot 0.5 \cdot 0.8 \cdot 0.1 \cdot 0.3 \\ 
+        &= 0.0024
+      \end{align*}
+    \item 
+    \begin{align*}
+      P(\neg a, \neg b, \neg c, \neg d, \neg e) &= P(\neg a)P(\neg b)P(\neg c)P(\neg d\given \neg a, \neg b)P(\neg e\given \neg b, \neg c) \\ 
+      &= 0.8 \cdot 0.5 \cdot 0.2 \cdot 0.1 \cdot 0.8 \\ 
+      &= 0.0064
+    \end{align*}
+    \item 
+    \begin{align*}
+      &\text{\pmb{P}}(A\given b, c, d, e) = \alpha \text{\pmb{ P}}(A, b, c, d, e)
+    \end{align*}
+    \begin{align*}
+      P(\neg a, b, c, d, e) &= P(\neg a)P(b)P(c)P(d \given \neg a, b)P(e \given b, c) \\ 
+      &= 0.8 \cdot 0.5 \cdot 0.8 \cdot 0.6 \cdot 0.3 \\ 
+      &= 0.0576
+    \end{align*}
+    \begin{align*}
+      \text{\pmb{P}}(A \given b, c, d, e) = \alpha \braket{0.0024, 0.0576}
+    \end{align*}
+    \begin{align*}
+      \alpha = \frac{1}{0.0024 + 0.0576} = \frac{1}{0.06}
+    \end{align*}
+    \begin{align*}
+      P(\neg a \given b, c, d, e) = \frac{0.0576}{0.06} = 0.96
+    \end{align*}
+  \end{enumerate}
+
+\section*{Question 2}
+  \begin{enumerate}[label=\alph*]
+      \item 
+          \begin{align*}
+              &\text{\pmb{P}}(B\given j, m) = \alpha \text{\pmb{ P}}(B)\sum_{e}P(e)\text{\pmb{ P}}(a \given B, e)P(j \given a)P(m \given a)
+          \end{align*}
+          \begin{align*}
+          	\text{\pmb{P}}(B) = \text{ \pmb f}_{1}(B) \quad
+            \text{\pmb{P}}(E) = \text{ \pmb f}_{2}(E) \quad
+            \text{\pmb{P}}(A \given B, E) = \text{ \pmb f}_{3}(A, B, E)
+          \end{align*}
+          \begin{align*}
+          	\text{\pmb{P}}(j\given A) = \text{ \pmb f}_{4}(A) \quad
+            \text{\pmb{P}}(m \given A) = \text{ \pmb f}_{5}(A)
+          \end{align*}
+          \begin{align*}
+          	 \text{\pmb f}_{6}(B, E) &= \sum_{a}\text{ \pmb f}_{3}(A, B, E)\times\text{ \pmb f}_{4}(A)\times\text{ \pmb f}_{5}(A) \qquad \text{"}\times\text{"} \text{ is the pointwise product operator} \\
+             &= [\text{\pmb f}_{3}(a, B, E)\times\text{ \pmb f}_{4}(a)\times\text{\pmb f}_{5}(a)] + [\text{\pmb f}_{3}(\neg a, B, E)\times\text{\pmb f}_{4}(\neg a)\times\text{\pmb f}_{5}(\neg a)] \\
+             &= \left(0.90 \times 0.70 \times \begin{bmatrix}
+             0.95 & 0.94 \\ 0.29 & 0.001
+             \end{bmatrix}\right) + \left(0.05 \times 0.01 \times \begin{bmatrix}
+             0.05 & 0.06 \\ 0.71 & 0.999
+             \end{bmatrix}\right) \\
+             &= \begin{bmatrix}
+             0.5985 & 0.5922 \\ 0.1827 & 6.3\cdot10^{-4}
+             \end{bmatrix} + \begin{bmatrix}
+             2.5 \cdot 10^{-5} & 3 \cdot 10^{-5} \\ 3.55 \cdot 10^{-4} & 4.995 \cdot 10^{-4}
+             \end{bmatrix} \\
+             &= \begin{bmatrix}
+             0.598525 & 0.59223 \\ 0.183055 & 0.0011295
+             \end{bmatrix}
+          \end{align*}
+          \begin{align*}
+              \text{\pmb{P}}(B\given j, m) = \alpha \text{ \pmb f}_{1}(B)\times\sum_{e}\text{ \pmb f}_{2}(e)\times\text{\pmb f}_{6}(B, e)
+          \end{align*}
+          \begin{align*}
+              \text{ \pmb f}_{7}(B) &= \sum_{e}\text{ \pmb f}_{2}(e)\times\text{\pmb f}_{6}(B, e) \\
+              &= [\text{\pmb f}_{2}(e)\times\text{ \pmb f}_{6}(B, e)] + [\text{\pmb f}_{2}(\neg e)\times\text{\pmb f}_{6}(B, \neg e)] \\
+              &= \left(0.002 \times \begin{bmatrix}
+              0.598525 \\ 0.183055 
+              \end{bmatrix}\right) + \left(0.998 \times \begin{bmatrix}
+              0.59223 \\ 0.0011295
+              \end{bmatrix}\right) \\
+              &= \begin{bmatrix}
+              0.5922300318 \\ 0.001493351
+              \end{bmatrix}
+          \end{align*}
+          \begin{align*}
+              \text{\pmb{P}}(B\given j, m) &= \alpha \text{ \pmb f}_{1}(B) \times \text{ \pmb f}_{7}(B) \\
+              &= \alpha \begin{bmatrix}
+              0.001 \cdot  0.5922300318 \\ 0.999 \cdot 0.001493351
+              \end{bmatrix} \\
+              &= \alpha \begin{bmatrix}
+              5.922300318 \cdot 10^{-4} \\ 0.0014918576
+              \end{bmatrix}
+          \end{align*}
+          \begin{align*}
+          	\alpha = \frac{1}{5.922300318 \cdot 10^{-4} + 0.0014918576} = 0.0020840876^{-1}
+             \end{align*}
+          \begin{align*}
+              \text{\pmb{P}}(B\given j, m) &= \begin{bmatrix}
+              0.02841676703 \\ 0.7165490548
+              \end{bmatrix}
+          \end{align*}
+  	\item
+    	\begin{flushleft}
+    		For exact inference by variable elimination there are: 16 multiplications and 6 additions to find the distribution. There is 1 addition and 2 divisions to normalize the distribution, making the total arithmetic operations to be $16 + 6 + 1 + 2 = 25$. \linebreak \linebreak For exact inference by enumeration there are: 15 multiplications and 3 additions for each value of $B$ totaling $2(15 + 3) = 36$ arithmetic operations to find the distribution. There is 1 addition and 2 divisions to normalize the distribution, increasing the total to $36 + 1 + 2 = 39$ arithmetic operations.
+    	\end{flushleft}
+  	\item
+    	It is known that exact inference by enumeration in Bayesian networks is always $O(2^n)$ where $n$ is the number of random variables represented by the Bayesian network. However, using variable elimination to perform exact inference on a \textit{chain}, the time complexity can be improved to run in linear time. Notice that a \textit{chain} is simply a \textit{polytree} (i.e.\ there is exactly one path between any two vertices in the network). It is known that variable elimination of polytrees is linear with respect to the number of CPT entries in the network. Given a \textit{chain} with $n$ random variables there is one CPT with 2 entries (corresponding to the root) and another $n-1$ CPTs with 4 entries each (each random variable has only one parent). This gives the total number of CPT entries to be $4(n-1) + 2 = 4n - 4 + 2 = 4n - 2$ and it follows that the complexity of variable elimination on a \textit{chain} is $O(n)$.
+  \end{enumerate}
+\section*{Question 3}
+	\begin{enumerate}[label=\alph*]
+    	\item
+        	Let $Y = Y_{1}, \cdots, Y_{n}$ be the set children of the variable X and let any $Z_{ij}$ be the \textit{j-th} parent of $Y_{i}$
+            \begin{align*}
+             \text{\pmb{P}}(X_{i} \given \text{MB}(X_{i}) &= \text{\pmb{P}}(X_{i} \given \text{parents}(X_{i}), Y, Z_{1j}, \cdots, Z_{jn}) \\ 
+             &= \alpha \text{ \pmb{P}}(X_{i} \given \text{parents}(X_{i}), Z_{1j}, \cdots, Z_{jn}) \text{\pmb{P}}(Y \given X_{i}\text{ parents}(X_{i}), Z_{1j}, \cdots, Z_{jn}) \\
+             &= \alpha \text{ \pmb{P}}(X_{i} \given \text{parents}(X_{i})) \text{\pmb{P}}(Y \given X_{i}, Z_{1j}, \cdots, Z_{jn}) \\
+             &= \alpha \text{ \pmb{P}}(X_{i} \given \text{parents}(X_{i}))\prod_{Y_{j} \in Y}\text{\pmb{P}}(Y_{j} \given \text{parents}(X_{i}))
+            \end{align*}
+            This derivation is possible because in a Bayesian network, a variable $X_{i}$ is independent of all variables not descending from $X_{i}$.
+        \item
+        To find the total number of states that a Gibb's sampling approach (a version of MCMC), consider the evidence variables: \textit{Sprinkler} and \textit{WetGrass} in the query, as well as the non-evidence variables: \textit{Rain} and \textit{Cloudy}. The starting state assignments will be the values of the evidence variables and random values for the non-evidence variables. Because the variables in the network are boolean and there are only 2 non-evidence variables, the number of initial states is the number of value combinations \textit{Sprinkler} and \textit{WetGrass} can be assigned, which is $2^{2} = 4$. After initializing the values of the variables in the network, the 2 non-evidence variables to be sampled can only be assigned 2 values each; increasing the total number of states to be $2^{2} \cdot 2^{2} = 2^{4}$. After sampling an arbitrary non-evidence variable, there is only 1 other non-evidence variable to sample, which again has only 2 possible assignments. This final assignment makes the total size of the state space to be $2^{2} \cdot 2^{2} \cdot 2 = 2^{5} = 32$. Note, while the number of paths to each state is $2^{5}$, there are only $1 \cdot 1 \cdot 2 \cdot 2 = 4$ distinct assignments to the variables in the state space, as the two evidence variables are fixed, and only the two non-evidence variables are allowed to vary.
+    \item
+    	$Q$ will be a $4 \times 4$ matrix (there are 4 variables in the network, but two of them are fixed, so only the other two: \textit{Rain} and \textit{Cloudy} will vary, hence there are only 16 possible transitions). For simplicity the variables: \textit{Cloudy}, \textit{Rain}, \textit{WetGrass}, and \textit{Sprinkler} are abbreviated \textit{C}, \textit{R}, \textit{W}, and \textit{S}. The distributions of the non-evidence variables given their Markov Blankets of will be computed to find the transition matrix.
+        \begin{align*}
+        	\text{\pmb{P}}(R\given c, w, s) &= \text{\pmb{P}}(R\given c)\text{\pmb{P}}(w\given s, R) \\ 
+            &= \alpha \braket{0.792, 0.18} \\
+            &= \braket{22/27, 5/27}
+        \end{align*}
+        \begin{align*}
+        	\text{\pmb{P}}(R\given \neg c, w, s) &= \text{\pmb{P}}(R\given \neg c)\text{\pmb{P}}(w\given s, R) \\ 
+            &= \alpha \braket{0.198, 0.720} \\
+            &= \braket{11/51, 40/51}
+        \end{align*}
+        \begin{align*}
+        	\text{\pmb{P}}(C\given r, s) &= \text{\pmb{P}}(C)\text{\pmb{P}}(s\given C)\text{\pmb{P}}( r\given C) \\ 
+            &= \alpha \braket{0.04, 0.05} \\
+            &= \braket{4/9, 5/9}
+        \end{align*}
+        \begin{align*}
+        	\text{\pmb{P}}(C\given \neg r, s) &= \text{\pmb{P}}(C)\text{\pmb{P}}(s\given C)\text{\pmb{P}}(\neg r\given C) \\ 
+            &= \alpha \braket{0.01, 0.20} \\
+            &= \braket{1/21, 20/21}
+        \end{align*}
+        The probability of a transition $P(y \rightarrow y')$ is given by the Gibb's sampling algorithm, which is $\text{\pmb{P}}(Z_{i}\given \mathit{mb}(Z_{i}))$ conditioned on the current values of the variables in state $y$. There are three transition states that must be considered: \begin{enumerate}
+        \item There are two variables varying between the two states. The probability of this is 0, as MCMC only allows one change between states.
+        \item The transitioned state is the same as the prior state (i.e.\ $y = y'$). The probability of a transition of this type, is the probability of sampling either non-evidence variable. \begin{align*}
+        	P((c, r) \rightarrow (c, r)) = P(c)[P(r\given c, w, s) + P(c\given r, s)]
+        	\end{align*}
+        \item
+        	Only one non-evidence variable varies.
+            \begin{align*}
+        	P((c, r) \rightarrow (c, \neg r)) = P(c)P(\neg r\given c, w, s)
+        	\end{align*}
+        \end{enumerate}
+        Following from these cases the transition matrix $Q$ is constructed as follows: (an entry $i,j$ in $Q$ corresponds to the transition $y_{i} \rightarrow y_{j}$:
+        \begin{align*}
+        	Q = \begin{bmatrix}
+        	17/27 & 5/54 & 5/18 & 0 \\
+            11/27 & 22/189 & 0 & 10/21 \\
+            2/9 & 0 & 59/123 & 20/51 \\
+            0 & 1/42 & 11/102 & 310/357
+        	\end{bmatrix} \qquad \begin{matrix*}[l]
+        	y_{1} &= (c, r, w, s) \\
+            y_{2} &= (c, \neg r, w, s) \\
+            y_{3} &= (\neg c, r, w, s) \\ 
+            y_{4} &= (\neg c, \neg r, w, s)
+        	\end{matrix*}
+        \end{align*}
+    \end{enumerate}
+    \section*{Question 4}
+      \begin{enumerate}[label=\alph*]
+          \item
+          	The net gain of purchasing a car in good quality $q+$ is $\$4000 - \$3000 = \$1000$, similarly for $q-$: $\$4000 - \$3000 - \$1400 = -\$400$. Using $P(q+) = 0.7$ and $P(q-) = 1 - P(q+) = 0.3$, the expected net gain will be: \begin{align*}(P(q+) \cdot \$1000) + (P(q-) \cdot -\$400) = \$580\end{align*}
+            \item
+            	It is given that $P(\text{pass} \given q+) = 0.8$ and $P(\text{pass} \given q-) = 0.35$. To find the likelihood of the car car's quality ($q+$ and $q-$), given the results of the mechanic's inspection, the probability of the car passing inspection as well as the probability of a car failing inspection must be computed. \begin{align*}
+                	P(\text{pass}) &= P(\text{pass} \given q+)P(q+) + P(\text{pass} \given q+)P(q-) \\ 
+                    &= 0.8 \cdot 0.7 + 0.35 \cdot 0.3 \\
+                    &= 0.665 \\
+                	P(\text{fail}) &= 1 - P(\text{pass}) \\ 
+                    &= 1 - 0.665 \\
+                    &= 0.335
+                \end{align*}
+			With those probabilities known, the posterior probabilities of the car's quality given it's inspection can be found. (The computations are not show, as they are trivial.) \begin{align*}
+				&P(\textit{q}\text{+} \given \text{pass}) = 0.8421 \\
+                &P(\textit{q}\text{+} \given \text{fail}) = 0.4179 \\
+                &P(\textit{q}\text{-} \given \text{pass}) = 0.1578 \\
+                &P(\textit{q}\text{-} \given \text{fail}) = 0.5821
+			\end{align*}
+      	\item
+        	To find the expected utility, the expected net gain of purchasing the car and the posterior probabilities calculated earlier are required. \begin{enumerate}
+        	\item 
+            	Expected utility, if the car passes inspection \begin{align*}
+            	[P(\textit{q}\text{+} \given \text{pass} \cdot 1000] + [P(\textit{q}\text{-} \given \text{pass}) \cdot -400] = 778.94
+            	\end{align*}
+       		\item
+            Expected utility, if the car fails inspection \begin{align*}
+            	[P(\textit{q}\text{+} \given \text{fail}) \cdot 1000] + [P(\textit{q}\text{-} \given \text{fail}) \cdot -400] = 185.06
+            	\end{align*}
+      	\end{enumerate}
+        In either case, the expected utility is positive and the car should be purchased.
+      \item
+      	Having the car inspected is a waste of money and is not valuable. This is because, as explained above, the car should be purchased regardless of whether or not it passes the mechanic's inspection.
+      \end{enumerate}
+      
+\end{document}
